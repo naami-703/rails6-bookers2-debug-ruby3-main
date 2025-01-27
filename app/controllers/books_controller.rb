@@ -5,7 +5,7 @@ class BooksController < ApplicationController
     @book_new = Book.new
     @user = @book.user
     @user_image =  @user.get_user_image(100, 100)
-
+    @book_comment = BookComment.new
   end
 
   def index
