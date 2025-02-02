@@ -33,6 +33,24 @@ class User < ApplicationRecord
     followings.include?(user)
   end
 
+  # 検索方法分岐
+  # nameは検索対象であるusersテーブル内のカラム名
+  # % → 0文字以上の任意の文字列 （例）#{word}% → 前方一致
+  # whereメソッドを使いデータベースから該当データを取得
+  def self.looks(search, word)
+    if search == "perfect_match"
+      @user = User.where("name LIKE?", "#{word}")
+    elsif search == "forward_match"
+      @user = User.where("name LIKE?","#{word}%")
+    elsif search == "backward_match"
+      @user = User.where("name LIKE?","%#{word}")
+    elsif search == "partial_match"
+      @user = User.where("name LIKE?","%#{word}%")
+    else
+      @user = User.all
+    end
+  end
+
   validates :name, length: { minimum: 2, maximum: 20 }
   validates :introduction, length: { maximum: 50 }
 
