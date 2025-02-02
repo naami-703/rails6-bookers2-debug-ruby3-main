@@ -11,8 +11,10 @@
   </head>
   <body>
     <%= render 'layouts/header' %>
-    <!-- 検索機能 -->
-    <%= render 'books/search'%>
+    <!-- 検索機能(ログイン時のみ表示) -->
+    <% if user_signed_in? %>
+      <%= render 'books/search'%>
+    <% end %>
       <main>
         <%= yield %>
       </main>

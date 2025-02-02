@@ -12,8 +12,8 @@
     <tbody>
       <% @users.each do |user| %>
         <tr>
-          <td><%= image_tag user.get_profile_image(50, 50) %></td>
-          <td><%= user.name %></td>
+          <td><%= image_tag user.get_user_image(50, 50) %></td>
+          <td><%= link_to user.name, user_path(user.id) %></td>
         </tr>
       <% end %>
     </tbody>
