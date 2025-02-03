@@ -13,7 +13,7 @@
     <%= render 'layouts/header' %>
     <!-- 検索機能(ログイン時のみ表示) -->
     <% if user_signed_in? %>
-      <%= render 'books/search'%>
+      <%= render 'searchs/search'%>
     <% end %>
       <main>
         <%= yield %>

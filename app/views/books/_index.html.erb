@@ -17,21 +17,11 @@
         <td><%= link_to book.title,book %></td>
         <td><%= book.body %></td>
 
-        <!-- いいね機能 -->
-        <td><% if book.favorited_by?(current_user) %>
-        <p>
-          <%= link_to book_favorite_path(book.id), method: :delete, remote: true do %>
-            ♥<%= book.favorites.count %> 
-          <% end %>
-        </p>
-        <% else %>
-        <p>
-          <%= link_to book_favorite_path(book.id), method: :post,  remote: true do %>
-            ♡<%= book.favorites.count %> 
-          <% end %>
-        </p>
-        <% end %></td>
-    
+        <!-- いいね機能（部分テンプレート・非同期通信 -->
+        <!-- 「favorite_buttons_<%= book.id %>」定義内容はfavoritesフォルダのjsファイル参照 -->
+        <td id="favorite_btn_<%= book.id %>">
+          <%= render "favorites/favorite-btn", book: book %>
+        </td>
 
       <!-- コメント件数 -->
         <td>
