@@ -4,10 +4,18 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
+  validates :name, length: { minimum: 2, maximum: 20 }
+  validates :introduction, length: { maximum: 50 }
+
   has_many :books, dependent: :destroy
   has_one_attached :profile_image
   has_many :favorites, dependent: :destroy
   has_many :book_comments, dependent: :destroy
+  has_many :read_counts, dependent: :destroy
+
+  # 相互フォローチャットルームの中間テーブル
+  has_many :messages, dependent: :destroy
+  has_many :entries, dependent: :destroy
 
   # フォローした関係
   # アソシエーションが繋がっているテーブル名、class_nameは実際のモデルの名前、foreign_keyは外部キー
@@ -51,8 +59,9 @@ class User < ApplicationRecord
     end
   end
 
-  validates :name, length: { minimum: 2, maximum: 20 }
-  validates :introduction, length: { maximum: 50 }
+  def favotited_by?(book_id)
+    favorites.where(book_id: book_id).exists?
+  end
 
   def get_user_image(width, height)
     unless profile_image.attached?

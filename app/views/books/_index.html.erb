@@ -23,10 +23,9 @@
           <%= render "favorites/favorite-btn", book: book %>
         </td>
 
-      <!-- コメント件数 -->
-        <td>
-        <p>コメント数：<%= book.book_comments.count %></p>
-      </td>
+      <!-- コメント件数・閲覧数 -->
+        <td><p>コメント数：<%= book.book_comments.count %></p></td>
+        <td><p>閲覧数：<%= book.read_counts.count %></p></td>
     <% end %>
   </tbody>
 </table>
