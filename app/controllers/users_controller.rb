@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  before_action :authenticate_user!
   before_action :ensure_correct_user, only: [:update]
 
   def show
@@ -51,7 +52,8 @@ class UsersController < ApplicationController
   def user_params
     params.require(:user).permit(:name, :introduction, :profile_image)
   end
-
+ 
+  # 与えられたIDを持つユーザーを検索し、そのユーザーが現在のユーザーであるかを確認
   def ensure_correct_user
     @user = User.find(params[:id])
     unless @user == current_user

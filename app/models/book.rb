@@ -10,7 +10,12 @@ class Book < ApplicationRecord
   
   # いいねが多い順並び変え用
   # -> { ... }  関連付けに特定の条件を指定
-  has_many :week_favorites, -> { where(created_at: 1.week.ago.beginning_of_day..Time.current.end_of_day) }
+  has_many :week_favorites, -> { where(created_at: ((Time.current.at_end_of_day - 6.day).at_beginning_of_day)..(Time.current.at_end_of_day)) }, class_name: 'Favorite'
+
+  # 投稿を新着順・いいねの多い順に並び替え機能
+  scope :latest, -> { order(created_at: :desc)}
+  scope :favorites, -> { order(favorites: :desc)}
+
 
   def favorited_by?(user)
     favorites.exists?(user_id: user.id)

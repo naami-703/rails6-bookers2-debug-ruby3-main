@@ -1,4 +1,7 @@
 class BooksController < ApplicationController
+  before_action :authenticate_user!
+  before_action :ensure_correct_user, only: [:edit, :update, :destroy]
+
   
   def show
     @book = Book.find(params[:id])
@@ -11,10 +14,17 @@ class BooksController < ApplicationController
 
   def index
     @user = current_user
-    # １週間以内でいいねが多い順並び替え（未完了）
-    to = Time.current.at_end_of_day
-    from = (to - 6.day).at_beginning_of_day
-    @books = Book.includes(:favorites).sort_by { |book| -book.favorites.where(created_at: from...to).count }
+    
+    # 投稿一覧を新着順・いいねの多い順に並び替え
+    if params[:latest]
+      @books = Book.latest
+    elsif params[:favorites]
+      #to = Time.current.at_end_of_day
+      #from = (to - 6.day).at_beginning_of_day
+      @books = Book.includes(:favorites).sort_by { |book| -book.favorites.count }
+    else
+      @books = Book.all
+    end
     
     @book = Book.new
   end
@@ -54,4 +64,14 @@ class BooksController < ApplicationController
   def book_params
     params.require(:book).permit(:title, :body)
   end
+ 
+  # 与えられたIDを持つ本（Book）を検索し、その本が現在のユーザーによって所有されているかを確認
+  def ensure_correct_user
+    @book = Book.find(params[:id])
+    unless @book.user == current_user
+      redirect_to books_path
+    end
+  end
+
+
 end
