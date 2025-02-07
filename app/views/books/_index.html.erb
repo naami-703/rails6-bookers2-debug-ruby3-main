@@ -36,6 +36,9 @@
       <!-- コメント件数・閲覧数 -->
         <td><p>コメント数：<%= book.book_comments.count %></p></td>
         <td><p>閲覧数：<%= book.read_counts.count %></p></td>
+      
+      <!-- 作成日時-->
+        <td><%= book.created_at.strftime('%Y/%m/%d') %></td>
     <% end %>
   </tbody>
 </table>
