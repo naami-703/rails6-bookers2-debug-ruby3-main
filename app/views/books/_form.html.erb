@@ -20,7 +20,7 @@
   </div>
   <div class="form-group">
      <%= f.label :category %>
-    <%= f.text_field :category, class: "form-control book_category" %>
+    <%= f.select :category, {'文芸書': '文芸書', 'コミック': 'コミック'}, { include_blank: '選択してください'}, { class: 'form-control' , required: true }  %>
     </div>
   <div class="form-group">
     <%= f.submit class: 'btn btn-success' %>
