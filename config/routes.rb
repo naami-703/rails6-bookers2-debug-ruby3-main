@@ -5,7 +5,9 @@ Rails.application.routes.draw do
   
   root 'homes#top'
   get 'home/about' => 'homes#about'
+  # 検索
   get "search" => "searchs#search"
+  # カテゴリータグ
   get 'tagsearches/search', to: 'tagsearches#search'
 
   resources :books, only: [:index,:show,:edit,:create,:destroy,:update] do
@@ -21,5 +23,10 @@ Rails.application.routes.draw do
 
 resources :messages, only: [:create]
 resources :rooms, only: [:create,:show]
+
+# ゲストログイン設定
+devise_scope :user do
+  post "users/guest_sign_in", to: "users/sessions#guest_sign_in"
+end
 
 end

@@ -71,5 +71,22 @@ class User < ApplicationRecord
       profile_image.variant(resize_to_limit: [width,height]).processed
   end
 
+  # ゲストユーザー設定
+  # find_or_create_by：データの検索と作成を自動的に判断して処理を行う、Railsのメソッド
+  # find_or_create_by!の「!」を付与することで、処理がうまくいかなかった場合にエラーが発生
+  # SecureRandom.urlsafe_base64：ランダムな文字列を生成するRubyのメソッド
+  GUEST_USER_EMAIL = "guest@example.com"
+  def self.guest
+    find_or_create_by!(email: GUEST_USER_EMAIL) do |user|
+      user.password = SecureRandom.urlsafe_base64
+      user.name = "guestuser"
+    end
+  end
+
+  # ゲストユーザー判定
+  def guest_user?
+    email == GUEST_USER_EMAIL
+  end
+
 end
 
