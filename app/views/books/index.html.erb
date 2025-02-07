@@ -7,7 +7,7 @@
 
       <!-- 現在のユーザーと表示対象のユーザーが異なる場合にフォローボタンを表示し、同じ場合はユーザーのプロフィール編集ボタンを表示 -->
         <% if current_user != @user %>
-          <td><%= render "users/follow_btn", user: user, options: { class: ""} %></td>
+          <td><%= render "users/follow_btn", user: @user, options: { class: ""} %></td>
         <% else %>
           <%= link_to edit_user_path(@user), class: "btn btn-outline-secondary btn-block" do %>
             <i class="fas fa-user-cog"></i>

@@ -2,11 +2,13 @@ class Book < ApplicationRecord
   belongs_to :user
   validates :title,presence:true
   validates :body,presence:true,length:{maximum:200}
+  validates :category,presence:true
 
   has_one_attached :profile_image
   has_many :favorites, dependent: :destroy
   has_many :book_comments, dependent: :destroy
   has_many :read_counts, dependent: :destroy
+
   
   # いいねが多い順並び変え用
   # -> { ... }  関連付けに特定の条件を指定

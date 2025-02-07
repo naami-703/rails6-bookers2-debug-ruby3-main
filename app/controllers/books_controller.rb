@@ -1,6 +1,6 @@
 class BooksController < ApplicationController
   before_action :authenticate_user!
-  before_action :ensure_correct_user, only: [:edit, :update, :destroy]
+  #before_action :ensure_correct_user, only: [:edit, :update, :destroy]
 
   
   def show
@@ -62,7 +62,7 @@ class BooksController < ApplicationController
   private
 
   def book_params
-    params.require(:book).permit(:title, :body)
+    params.require(:book).permit(:title, :body, :category)
   end
  
   # 与えられたIDを持つ本（Book）を検索し、その本が現在のユーザーによって所有されているかを確認
