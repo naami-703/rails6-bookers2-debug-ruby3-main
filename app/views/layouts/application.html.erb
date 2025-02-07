@@ -10,12 +10,19 @@
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
   <body>
+    <
     <%= render 'layouts/header' %>
-    <!-- 検索機能(ログイン時のみ表示) -->
-    <% if user_signed_in? %>
-      <%= render 'searchs/search'%>
-      <%= render 'tagsearches/tagsearch' %>
-    <% end %>
+    <!-- ワード検索/カテゴリー検索機能(ログイン時のみ表示) -->
+    <div class="search-var">
+      <table class="search-var">
+        <% if user_signed_in? %>
+          <tr>
+          <td><%= render 'searchs/search'%></td>
+          <td><%= render 'tagsearches/tagsearch' %></td>
+          </tr>
+        <% end %>
+      </table>
+    </div>
       <main>
         <%= yield %>
       </main>
