@@ -19,6 +19,7 @@
 
   <body>
     <%= render 'layouts/header' %>
+    <%= render 'layouts/errors', obj: @obj if @obj.present?%>
     <!-- ワード検索/カテゴリー検索機能(ログイン時のみ表示) -->
     <div class="search-var">
       <table class="search-var">

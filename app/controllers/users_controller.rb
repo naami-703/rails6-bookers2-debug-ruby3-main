@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
-  before_action :ensure_correct_user, only: [:update]
   before_action :ensure_guest_user, only: [:edit]
+  before_action :ensure_correct_user, only: [:update, :edit]
 
   def show
     @user = User.find(params[:id])
@@ -40,6 +40,7 @@ class UsersController < ApplicationController
 
   def update
     @user = current_user
+    @obj = @user  #エラー表示用
     if @user.update(user_params)
       flash[:notice] =  "You have updated user successfully."
       redirect_to users_path
@@ -67,7 +68,8 @@ class UsersController < ApplicationController
   def ensure_guest_user
     @user = User.find(params[:id])
     if @user.guest_user?
-      redirect_to user_path(current_user) , notice: "ゲストユーザーはプロフィール編集画面へ遷移できません。"
+       flash[:alert] = "ゲストユーザーはプロフィール編集画面へ遷移できません。"
+      redirect_to user_path(current_user)
     end
   end  
 

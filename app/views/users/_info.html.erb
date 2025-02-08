@@ -17,17 +17,18 @@
 </table>
 
 <!-- ゲストユーザーの時にはユーザーのプロフィール編集ボタンを表示させない -->
-<% unless user.guest_user? %>
+<% unless current_user.guest_user?%>
   <div class="row">
     <%= link_to '',edit_user_path(user),class: "btn btn-outline-secondary btn-block fas fa-user-cog edit_user_#{user.id}" %>
   </div>
 <% end %>
 
 <!-- 現在のユーザーと表示対象のユーザーが異なる場合にフォローボタンを表示し、同じ場合はユーザーのプロフィール編集ボタンを表示 -->
-<% if current_user != @user %>
-  <td><%= render "follow_btn", user: user, options: { class: ""} %></td>
-<% else %>
-  <%= link_to edit_user_path(@user), class: "btn btn-outline-secondary btn-block" do %>
-    <i class="fas fa-user-cog"></i>
-  <% end %>
-<% end %>
+<!--<% if current_user != @user %> -->
+   <!--<td><%= render "users/follow_btn", user: user, options: { class: ""} %></td> -->
+   <!--<% else %> -->
+   <!--<%= link_to edit_user_path(@user), class: "btn btn-outline-secondary btn-block" do %> -->
+    <!--<i class="fas fa-user-cog"></i> -->
+    <!--<% end %> -->
+ <!--<% end %> -->
+

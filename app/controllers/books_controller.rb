@@ -27,10 +27,12 @@ class BooksController < ApplicationController
     end
     
     @book = Book.new
+    @obj = @book #エラー表示用
   end
 
   def create
     @book = Book.new(book_params)
+    @obj = @book #エラー表示用
     @book.user_id = current_user.id
     if @book.save
       redirect_to book_path(@book), notice: "You have created book successfully."
@@ -46,6 +48,7 @@ class BooksController < ApplicationController
 
   def update
     @book = Book.find(params[:id])
+    @obj = @book #エラー表示用
     if @book.update(book_params)
       redirect_to book_path(@book), notice: "You have updated book successfully."
     else

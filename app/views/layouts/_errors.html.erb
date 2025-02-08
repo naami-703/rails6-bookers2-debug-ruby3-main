@@ -1,10 +1,25 @@
-<% if obj.errors.any? %>
-  <div id="error_explanation">
-    <h3><%= pluralize(obj.errors.count, "error") %> prohibited this obj from being saved:</h3>
-    <ul>
-      <% obj.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-    </ul>
+<!-- booknewの時も反応してしまうから要検討 -->
+<!-- <% if obj && obj.errors.any? %> -->
+  <!-- <div id="error_explanation"> -->
+  <!-- <h3><%= pluralize(obj.errors.count, "error") %> prohibited this obj from being saved:</h3> -->
+    <!-- <ul> -->
+    <!-- <% obj.errors.full_messages.each do |message| %> -->
+        <!-- <li><%= message %></li> -->
+        <!-- <% end %> -->
+    <!-- </ul> -->
+    <!-- </div> -->
+    <!-- <% end %> -->
+
+<% if flash[:notice].present? %>
+  <div class="alert alert-success">
+    <%= flash[:notice] %>
   </div>
 <% end %>
+
+<% if flash[:alert].present? %>
+  <div class="alert alert-danger">
+    <%= flash[:alert] %>
+  </div>
+<% end %>
+
+
