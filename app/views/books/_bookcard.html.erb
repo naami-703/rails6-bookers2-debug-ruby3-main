@@ -1,62 +1,71 @@
-<div class="row g-0">
-  <% @books.each do |book| %>
-    <div class="col-md-4"><!-- 1行に2つのカードを配置 -->
-      <div class="card w-100 mx-auto mt-4 shadow-lg">
-        <%= image_tag book.user.get_user_image(30, 30), class: "card-img-top" %><!-- 本もしくはスポットの画像に変更 -->
-        <div class="card-body">
-          <div class="row">
-            <div class="col-2">
-              <%= image_tag book.user.get_user_image(50, 50), class: "mt-3 rounded-circle"; %>
+<div class="container">
+  <div class="row justify-content-center">
+    <% @books.each do |book| %>
+      <div class="col-12 mb-3"> <!-- 横長のカードを縦に並べる -->
+        <div class="card border shadow-lg position-relative"> <!-- position-relative を追加 -->
+
+        <!-- ♡ ボタン（右上に配置） -->
+        <div class="position-absolute top-0 end-0 p-2 me-2">
+          <span id="favorite_btn_<%= book.id %>">
+            ブックマーク: <%= render "favorites/favorite-btn", book: book %>
+          </span>
+        </div>
+
+          <div class="row g-0 align-items-center"> <!-- 横長レイアウト -->
+    
+                  
+            <!-- 画像部分 -->
+            <div class="col-md-3 ps-3">
+              <%= image_tag book.user.get_user_image(120, 120), class: "card-img rounded-start img-fluid" %>
             </div>
-            <div class="col-10">
-              <p class="card-title ps-4">
-                <%= link_to book, class: "text-dark" do %>
-                  <strong><span> <%= book.title %></span></strong>
-                <% end %>
-              </p>
-              <p class="card-text ps-4">
-                <% if book.category.present? %>
-                カテゴリー:<%= link_to book.category, tagsearches_search_path(content: book.category) %>
-                <% end %>
-                </p>
-              <p class="card-text ps-4 text-truncate">説明：<%= book.body %></p>
 
-              <div class="row">
-                <div class="col-12 mx-auto">
-                  <p class="card-text ms-1">
-                    <span>コメント数: <%= book.book_comments.count %></span><br>
-                    <span id="favorite_btn_<%= book.id %> md-1 ms-1">ブックマーク: 
-                      <%= render "favorites/favorite-btn", book: book %>
-                    </span>
-                  </p>
-                  <!-- Button trigger modal -->
-                  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                    詳細を見る
-                  </button>
-                </div>
+            <!-- 本の詳細部分 -->
+            <div class="col-md-6">
+              <div class="card-body">
+                <h5 class="card-title">
+                  <%= link_to book, class: "text-dark" do %>
+                    <strong><%= book.title %></strong>
+                  <% end %>
+                </h5>
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item">
+                    <% if book.category.present? %>
+                      カテゴリー: <%= link_to book.category, tagsearches_search_path(content: book.category) %>
+                    <% end %>
+                  </li>
+                  <li class="list-group-item">説明：<%= book.body %></li>
+                  <li class="list-group-item">コメント数: <%= book.book_comments.count %></li>
+                </ul>
               </div>
+            </div>
 
-              <!-- Modal -->
-              <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg"">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h1 class="modal-title fs-5" id="staticBackdropLabel">新規投稿</h1>
-                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                      <%= render 'books/form', book: @book %>
-                    </div>
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
+            <!-- 詳細ボタン -->
+            <div class="col-md-3 text-center">
+              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal_<%= book.id %>">
+                詳細を見る
+              </button>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  <% end %>
+
+      <!-- Modal（本ごとに個別のIDを付与） -->
+      <div class="modal fade" id="modal_<%= book.id %>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalLabel_<%= book.id %>" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="modalLabel_<%= book.id %>">詳細</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <%= render 'books/form', book: book %>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
 </div>

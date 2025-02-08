@@ -1,6 +1,5 @@
 <%= link_to '新着順', books_path(latest: "true") %>
 <%= link_to 'いいねが多い順', books_path(favorites: "true") %>
 
-<div class="card-list-container">
-<!-- カード1 -->
+<!-- カード表示 -->
   <%= render 'books/bookcard', books: @books %>
