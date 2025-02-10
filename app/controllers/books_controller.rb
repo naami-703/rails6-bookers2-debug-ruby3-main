@@ -14,6 +14,10 @@ class BooksController < ApplicationController
 
   def index
     @user = current_user
+    @books = Book.all
+    @book_new = Book.new
+    @user_image =  @user.get_user_image(100, 100)
+    @book_comments = BookComment.new
     
     # 投稿一覧を新着順・いいねの多い順に並び替え
     if params[:latest]
@@ -26,13 +30,12 @@ class BooksController < ApplicationController
       @books = Book.all
     end
     
-    @book = Book.new
-    @obj = @book #エラー表示用
+    #@obj = @book #エラー表示用
   end
 
   def create
     @book = Book.new(book_params)
-    @obj = @book #エラー表示用
+    #@obj = @book #エラー表示用
     @book.user_id = current_user.id
     if @book.save
       redirect_to book_path(@book), notice: "You have created book successfully."
@@ -48,7 +51,7 @@ class BooksController < ApplicationController
 
   def update
     @book = Book.find(params[:id])
-    @obj = @book #エラー表示用
+    #@obj = @book #エラー表示用
     if @book.update(book_params)
       redirect_to book_path(@book), notice: "You have updated book successfully."
     else

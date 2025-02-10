@@ -1,59 +1,44 @@
-<div class='container'>
-  <div class='row'>
-    <div class='col-md-3'>
-      <h2>User info</h2>
-      <%= render 'users/info', user: @user %>
-      <h2 class="mt-3">New book</h2>
-      <%= render 'form', book: @book_new %>
-    </div>
+<h2>Book detail</h2>
+<table class='table'>
+  <tr>
+    <td><%= link_to(book.user) do %>
+      <%= image_tag @book.user.get_user_image(100, 100) %><br>
+      <%= book.user.name %>
+      <% end %>
+    </td>
+    <td><%= link_to book.title, book %></td>
+    <td><%= book.body %></td>
+    <td>
+    <% if book.category.present? %>
+      <%= link_to @book.category, tagsearches_search_path(content: @book.category) %>
+    <% end %>
+    </td>
 
-    <div class='col-md-8 offset-md-1'>
-  		<h2>Book detail</h2>
-  		<table class='table'>
-  		  <tr>
-          <td><%= link_to(@book.user) do %>
-            <%= image_tag @book.user.get_user_image(100, 100) %><br>
-            <%= @book.user.name %>
-            <% end %>
-          </td>
-          <td><%= link_to @book.title, @book %></td>
-          <td><%= @book.body %></td>
-          <td>
-          <% if @book.category.present? %>
-            <%= link_to @book.category, tagsearches_search_path(content: @book.category) %>
-          <% end %>
-          </td>
+    <!-- いいね機能（部分テンプレート・非同期通信 -->
+    <td id="favorite_btn_<%= @book.id %>">
+      <%= render "favorites/favorite-btn", book: @book %>
+    </td>
+  
+    <!-- コメント件数 -->
+    <td id="comment_count_<%= @book.id %>">
+      <%= render "book_comments/comment_count", book: @book %>
+    </td>
 
+    <!-- 閲覧件数 -->
+    <td><p>閲覧数：<%= book.read_counts.count %></p></td>
 
+    <!-- 編集・削除ボタン -->
+    <% if book.user == current_user %>
+      <td><%= link_to 'Edit', edit_book_path(@book), class: "btn btn-sm btn-success" %></td>
+      <td><%= link_to 'Destroy', @book, method: :delete, data: { confirm: '本当に消しますか？' }, class: "btn btn-sm btn-danger" %></td>
+    <% end %>
+  </tr>
+</table>
 
-          <!-- いいね機能（部分テンプレート・非同期通信 -->
-          <td id="favorite_btn_<%= @book.id %>">
-            <%= render "favorites/favorite-btn", book: @book %>
-          </td>
-        
-          <!-- コメント件数 -->
-          <td id="comment_count_<%= @book.id %>">
-            <%= render "book_comments/comment_count", book: @book %>
-          </td>
-
-          <!-- 閲覧件数 -->
-          <td><p>閲覧数：<%= @book.read_counts.count %></p></td>
-
-          <!-- 編集・削除ボタン -->
-          <% if @book.user == current_user %>
-            <td><%= link_to 'Edit', edit_book_path(@book), class: "btn btn-sm btn-success" %></td>
-            <td><%= link_to 'Destroy', @book, method: :delete, data: { confirm: '本当に消しますか？' }, class: "btn btn-sm btn-danger" %></td>
-          <% end %>
-        </tr>
-      </table>
-      
-      <!-- コメント一覧 -->
-      <div id="comment_index_<%= @book.id %>">
-      <%= render "book_comments/comment_index", book: @book %>
-      </div>
-
-      <!-- コメント投稿機能 -->
-      <%= render "book_comments/comment_form", book: @book, book_comment: @book_comment %>
-    </div>
-  </div>
+<!-- コメント一覧 -->
+<div id="comment_index_<%= @book.id %>">
+<%= render "book_comments/comment_index", book: book %>
 </div>
+
+<!-- コメント投稿機能 -->
+<%= render "book_comments/comment_form", book: book, book_comment: book_comment %>

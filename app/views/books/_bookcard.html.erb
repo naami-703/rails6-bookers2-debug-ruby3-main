@@ -23,9 +23,7 @@
             <div class="col-md-6">
               <div class="card-body">
                 <h5 class="card-title">
-                  <%= link_to book, class: "text-dark" do %>
-                    <strong><%= book.title %></strong>
-                  <% end %>
+                  <strong><%= book.title %></strong>
                 </h5>
                 <ul class="list-group list-group-flush">
                   <li class="list-group-item">
@@ -54,12 +52,62 @@
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
           <div class="modal-content">
             <div class="modal-header">
-              <h1 class="modal-title fs-5" id="modalLabel_<%= book.id %>">詳細</h1>
+              <h1 class="modal-title fs-5" id="modalLabel_<%= book.id %>">新規投稿</h1>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              <%= render 'books/form', book: book %>
+            <h2>Book detail</h2>
+            <table class='table'>
+              <tr>
+                <td>
+                  <% user = User.find(book.user_id) %>
+                  <%= link_to(user) do %>
+                    <%= image_tag user.get_user_image(100, 100) %><br>
+                    <%= user.name %>
+                  <% end %>
+                </td>
+                <td>タイトル: <%= book.title %></td>              
+                <td>本文: <%= book.body %></td>
+              </tr>
+              <tr>
+                <td>
+                  <% if book.category.present? %>
+                    カテゴリー: <%= link_to book.category, tagsearches_search_path(content: book.category) %>
+                  <% end %>
+                  </td>
+                      
+                  <!-- いいね機能（部分テンプレート・非同期通信 -->
+                  <td id="favorite_btn_<%= book.id %>">
+                    <%= render "favorites/favorite-btn", book: book %>
+                </td>
+
+                <!-- コメント件数 -->
+                <td id="comment_count_<%= book.id %>">
+                  <%= render "book_comments/comment_count", book: book %>
+                </td>
+            
+                <!-- 閲覧件数 -->
+                <td><p>閲覧数：<%= book.read_counts.count %></p></td>
+              </tr>
+            
+                <!-- 編集・削除ボタン -->
+                <% if book.user == current_user %>
+                  <td><%= link_to 'Edit', edit_book_path(book), class: "btn btn-sm btn-success" %></td>
+                  <td><%= link_to 'Destroy', book, method: :delete, data: { confirm: '本当に消しますか？' }, class: "btn btn-sm btn-danger" %></td>
+                <% end %>
+              </tr>
+            </table>
+            
+            <!-- コメント一覧 -->
+            <h4>コメント一覧</h4>
+            <div id="comment_index_<%= book.id %>">
+            <%= render "book_comments/comment_index", book: book %>
             </div>
+            
+            <!-- コメント投稿機能 -->
+            <%= render "book_comments/comment_form", book: book, book_comment: @book_comments %>
+            </div>
+
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
             </div>
