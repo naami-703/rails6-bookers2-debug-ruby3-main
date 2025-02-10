@@ -5,6 +5,8 @@
     <%= image_tag book_comment.user.get_user_image(50,50) %>
     <%=link_to book_comment.user.name, book_path(book_comment.book) %>
     </td>
+    <!-- コメントのジャンル表示(java設定あり) -->
+    <td><div id="comment_area"></div></td>
     <td><%= book_comment.comment %></td>
     <td>
     <% if book_comment.user == current_user %>

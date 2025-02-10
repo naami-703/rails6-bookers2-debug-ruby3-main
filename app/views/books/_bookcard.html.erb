@@ -39,7 +39,7 @@
 
             <!-- 詳細ボタン -->
             <div class="col-md-3 text-center">
-              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal_<%= book.id %>">
+              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal_<%= book.id %>" data-book-title="<%= book.title %>" data-book-id="<%= book.id %>">
                 詳細を見る
               </button>
             </div>
@@ -75,11 +75,6 @@
                     カテゴリー: <%= link_to book.category, tagsearches_search_path(content: book.category) %>
                   <% end %>
                   </td>
-                      
-                  <!-- いいね機能（部分テンプレート・非同期通信 -->
-                  <td id="favorite_btn_<%= book.id %>">
-                    <%= render "favorites/favorite-btn", book: book %>
-                </td>
 
                 <!-- コメント件数 -->
                 <td id="comment_count_<%= book.id %>">

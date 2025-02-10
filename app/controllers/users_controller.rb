@@ -7,6 +7,7 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     @books = @user.books
     @book = Book.new
+    @book_comments = BookComment.new
     
     # 相互フォローチャットルーム作成
     @currentUserEntry=Entry.where(user_id: current_user.id)

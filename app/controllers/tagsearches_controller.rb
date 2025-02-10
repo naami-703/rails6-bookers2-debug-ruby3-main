@@ -3,6 +3,7 @@ class  TagsearchesController < ApplicationController
   def search
     @model = Book
     @word = params[:content] #検索フォームで「content」指定
+    @book_comments = BookComment.new
     @books = Book.where("category LIKE ?", "%#{@word}%")
     render "tagsearches/tagsearch"
   end

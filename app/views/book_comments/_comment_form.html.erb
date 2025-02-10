@@ -1,6 +1,7 @@
 <!-- form_withヘルパーではlocal: falseを指定することで、非同期通信を行うことができる -->
 
 <%= form_with model: [book, book_comment], local: false do |f| %>
+  <%= f.select :book_id, ["本の感想",[book.title, book.id]], include_blank: "選択して下さい" %><br>
   <%= f.text_area :comment, size: '80', id: "comment_textarea" %><br>
   <%= f.submit "送信" %>
 <% end %>
