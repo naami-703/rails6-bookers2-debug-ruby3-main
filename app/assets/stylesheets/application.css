@@ -83,3 +83,11 @@ h1 {
   background-repeat: no-repeat
 }
 
+.logo-image {
+  background-image: url("../assets/images/logo.webp");
+  width: 65x; /* 画像の幅に合わせて調整してください */
+  height: 65px; /* 画像の高さに合わせて調整してください */
+  background-size: auto;
+  background-repeat: no-repeat;
+}
+
