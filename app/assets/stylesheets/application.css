@@ -75,3 +75,11 @@ h1 {
   color: #000;
   line-height: 2.5;
 }
+
+.jumbotron {
+  background-image: url("topimage.webp");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat
+}
+
