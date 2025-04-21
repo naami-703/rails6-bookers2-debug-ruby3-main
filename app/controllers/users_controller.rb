@@ -8,6 +8,9 @@ class UsersController < ApplicationController
     @books = @user.books
     @book = Book.new
     @book_comments = BookComment.new
+    @yesterday_book = @books.create_yesterday
+    @this_week_book = @books.create_this_week
+    @last_week_book = @books.create_last_week
     
     # 相互フォローチャットルーム作成
     @currentUserEntry=Entry.where(user_id: current_user.id)
